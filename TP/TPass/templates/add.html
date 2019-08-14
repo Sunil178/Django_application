@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add</title>
+</head>
+<body>
+	<form action="/add_students/" method="POST">
+		{% csrf_token %}
+		<label>Enrollment </label>
+		<input type="text" name="enrollment"><br>
+		<label>Name </label>
+		<input type="text" name="name"><br>
+		<input type="submit" name="submit" value="Submit">
+	</form>
+</body>
+</html>

@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+​
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+​
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+​
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+​
+<link rel="shortcut icon" href="">
+	<title>Student Details ::</title>
+	<style type="text/css">
+		th,tr,td{
+			border:1px solid black;
+		}
+	</style>
+​
+</head>
+<body>
+​
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Page 1-1</a></li>
+          <li><a href="#">Page 1-2</a></li>
+          <li><a href="#">Page 1-3</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+ </nav>
+<div class="container">
+​
+	<div class="row">
+		<h1>Student Details</h1>
+		<a style="margin-bottom: 15px;" href="/add/" class="btn btn-info  pull-right">Add&nbsp;<i class="fa fa-plus"></i></a>
+​
+	</div>
+	<div class="row">
+		<table class="table table-bordered table-striped table-hover" id="myTable">
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>detete</th>
+				<th>edit</th>
+			</tr>
+			{% for row in records %}
+					{% csrf_token %}
+​
+			<tr id="content">
+				<td>
+					{{row.id}}
+				</td>
+				<td>
+					{{row.name}}
+				</td>
+				<td>
+					<a class="btn btn-danger delete" onclick="row(this)" data-id="{{row.id}}">
+						<i class="fa fa-trash"></i>
+					</a>
+			
+				</td>				
+				<td>
+					<a class="btn btn-primary" href="/edit_form/{{row.id}}">
+						<i class="fa fa-edit"></i>
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>		
+	</div>
+	<div id="new"></div>
+</div>
+</div>
+​
+<script type="text/javascript">
+	function row(r) {
+		call_url = "/delete/"+ r.getAttribute("data-id");
+		$.ajax({
+				url: call_url,
+				method: "POST",
+				dataType: 'json',
+				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+				success:function(obj){
+					console.log("success")
+					var i = r.parentNode.parentNode.rowIndex;
+					document.getElementById("myTable").deleteRow(i);
+				},
+				error: function(obj){
+					console.log("error")
+					$("#content").remove();
+					
+				}
+		});
+}
+</script>
+​
+</body>
+</html>
